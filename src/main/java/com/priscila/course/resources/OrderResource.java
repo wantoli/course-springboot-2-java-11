@@ -1,5 +1,6 @@
 package com.priscila.course.resources;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,4 +37,11 @@ public class OrderResource {
 		
 	}
 
+	@GetMapping(value = "/{id}/total")
+	public ResponseEntity<Double> sumPrice(@PathVariable Long id) {
+		
+		Double x = service.sumPrice(id);
+		return ResponseEntity.ok().body(x);
+		
+	}
 }
