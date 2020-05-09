@@ -21,6 +21,9 @@ public class OrderItem implements Serializable {
 	private Integer quantity;
 	private Double price;
 	
+	@SuppressWarnings("unused")
+	private Double total;
+	
 	public OrderItem() {
 		
 	}
@@ -31,6 +34,7 @@ public class OrderItem implements Serializable {
 		id.setProduct(product);
 		this.quantity = quantity;
 		this.price = price;
+		this.total = getSubTotal();
 	}
 
 	@JsonIgnore
@@ -64,6 +68,10 @@ public class OrderItem implements Serializable {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+	
+	public Double getSubTotal() {
+		return price * quantity;
 	}
 
 	@Override
