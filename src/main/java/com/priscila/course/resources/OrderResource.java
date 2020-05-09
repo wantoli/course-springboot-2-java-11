@@ -1,6 +1,5 @@
 package com.priscila.course.resources;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
