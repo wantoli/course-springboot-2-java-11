@@ -30,7 +30,7 @@ public class UserService {
 		
 		Optional<User> obj = repository.findById(id);
 		//return obj.get();
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id, " Usuario nao encontrado "));
 	}
 	
 	public User insert(User obj) {
@@ -41,7 +41,7 @@ public class UserService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException(id, e.getMessage());
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException(e.getMessage());
 		}
@@ -53,7 +53,7 @@ public class UserService {
 			updateData(entity, obj);
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException(id, e.getMessage());
 		}
 	}
 

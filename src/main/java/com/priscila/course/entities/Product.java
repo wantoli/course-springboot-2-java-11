@@ -95,6 +95,14 @@ public class Product implements Serializable {
 		return categories;
 	}
 	
+	public void addCategory(Category category) {
+		categories.add(category);
+	}
+	
+	public void removeCategory(Category category) {
+		categories.remove(category);
+	}
+	
 	@JsonIgnore
 	public Set<Order> getOrders(){
 		Set<Order> set = new HashSet<>();

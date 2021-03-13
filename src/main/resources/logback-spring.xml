@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="Console" 
+    		class="ch.qos.logback.core.ConsoleAppender">
+        	
+        	<encoder 
+        			class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+        			<providers>
+        				<timestamp>
+        					<timeZone>America/Sao_Paulo</timeZone>
+        				</timestamp>
+        				<version/>
+        				<callerData>
+        					<classFieldName>classname</classFieldName>
+        					<methodFieldName>method</methodFieldName>
+        					<fileFieldName>file</fileFieldName>
+        					<lineFieldName>line</lineFieldName>
+        				</callerData>
+        				<threadName>
+        					<fieldName>thread</fieldName>
+        				</threadName>
+        				<loggerName />
+        				<logLevel />
+        				<mdc />
+        				<message />
+        				<arguments>
+        					<includeNonStructuredArguments>true</includeNonStructuredArguments>
+        				</arguments>
+        				<logstashMarkers />
+        				<stackTrace />
+        			</providers>
+        	</encoder>
+    </appender>
+    
+    <appender name="ASYNC_CONSOLE"
+    	class="ch.qos.logback.classic.AsyncAppender">
+    	<appender-ref ref="Console" />
+    	<queueSize>1</queueSize>
+    	<includeCallerData>false</includeCallerData>
+    	<neverBlock>true</neverBlock>
+    	<discardingThreshold>0</discardingThreshold>
+    </appender>
+    
+       
+    <root level="INFO">
+        <appender-ref ref="ASYNC_CONSOLE"/>
+    </root>
+
+	<logger
+		name="com.priscila.course.filters.RequestAndResponseLoggingFilter"
+		level="trace" additivity="false">
+		<appender-ref ref="ASYNC_CONSOLE" />
+	</logger>
+	
+	<logger 
+		name="com.prisfak.course.utils.RestTemplateLoggingInterceptor"
+		level="trace" additivity="false">
+		<appender-ref ref="ASYNC_CONSOLE" />
+	</logger>
+	
+	<root level="info">
+		<appender-ref ref="ASYNC_CONSOLE" />
+	</root>
+</configuration>

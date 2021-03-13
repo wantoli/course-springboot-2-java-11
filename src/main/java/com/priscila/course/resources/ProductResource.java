@@ -6,15 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.priscila.course.entities.Product;
+import com.priscila.course.entities.Saida;
 import com.priscila.course.services.ProductService;
 
 @RestController
 @RequestMapping(value = "/products")
 public class ProductResource {
+	
 	
 	@Autowired
 	private ProductService service;
@@ -36,4 +41,28 @@ public class ProductResource {
 		
 	}
 
+	@GetMapping(value = "/description/{name}")
+	public ResponseEntity<List<Product>> findByNameLike(@PathVariable String name) {
+		
+		List<Product> obj = service.findByNameLike(name);
+		
+		for (Product x : obj) {
+			
+			Saida s = new Saida();
+			s.setDescription(x.getDescription());
+		}
+		
+		return ResponseEntity.ok().body(obj);
+		
+	}
+	
+	@PutMapping(value= "/{id}/Categories")
+	public ResponseEntity<Product> update (@PathVariable Long id, @RequestBody Product obj, 
+			@RequestParam("optional") String action) {
+		
+		obj = service.updateCategory(id, obj, action);
+		return ResponseEntity.ok().body(obj);
+		
+	}
+	
 }
