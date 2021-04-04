@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +18,20 @@ import com.priscila.course.services.exceptions.ResourceNotFoundException;
 @Service
 public class ProductService {
 	
+	private final Logger log = LoggerFactory.getLogger(ProductService.class);
+	
 	@Autowired
 	private ProductRepository repository;
 	
 	public List<Product> findAll() {
 		
+		log.info("Buscando todos os produtos");
 		return repository.findAll();
 	}
 	
 	public Product findById(Long id) {
 		
+		log.info("Buscando um produto especifico");
 		Optional<Product> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id, " Produto nao encontrado "));
 	}

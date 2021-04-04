@@ -48,7 +48,7 @@ public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 	private static final String CORRELATION_ID_HEADER_NAME = "correlationID";
 	private static final String FLOWID_HEADER_NAME = "flowId";
 	
-	@Value("${info.app.name")
+	@Value("${info.app.name}")
 	private String appName;
 	
 	private final Logger log = LoggerFactory.getLogger(RequestAndResponseLoggingFilter.class);
@@ -96,7 +96,7 @@ public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 		if (!Objects.isNull(MDC.get(FLOWID_HEADER_NAME)))
 			response.addHeader(FLOWID_HEADER_NAME, FLOWID_HEADER_NAME);
 		
-		if (log.isTraceEnabled()) {
+		if (log.isTraceEnabled() || log.isInfoEnabled()) {
 			try {
 				logRequestResponse(request, response, requestTime);
 			}catch (Exception e){
@@ -144,6 +144,9 @@ public class RequestAndResponseLoggingFilter extends OncePerRequestFilter {
 			log.error(HttpStatus.valueOf(response.getStatus()).getReasonPhrase(), 
 					kv("requestResponse", new RequestResponseLogging(requestLogBean, responseLogBean)));
 		} else if (response.getStatus() >= 400 && response.getStatus() < 500) {
+			log.info(HttpStatus.valueOf(response.getStatus()).getReasonPhrase(), 
+					kv("requestResponse", new RequestResponseLogging(requestLogBean, responseLogBean)));
+		} else if (response.getStatus() >= 200 && response.getStatus() < 300){
 			log.info(HttpStatus.valueOf(response.getStatus()).getReasonPhrase(), 
 					kv("requestResponse", new RequestResponseLogging(requestLogBean, responseLogBean)));
 		} else {

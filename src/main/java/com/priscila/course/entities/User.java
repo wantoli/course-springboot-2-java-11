@@ -3,6 +3,7 @@ package com.priscila.course.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
+	private UUID idUnico;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
@@ -35,12 +37,13 @@ public class User implements Serializable {
 		
 	}
 
-	public User(Long id, String name, String email, String phone, String password) {
+	public User(Long id, String name, String email, String phone, String password, UUID idUnico) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
+		this.idUnico = idUnico;
 	}
 
 	public Long getId() {
@@ -87,6 +90,13 @@ public class User implements Serializable {
 		return orders;
 	}
 
+	public UUID getIdUnico() {
+		return idUnico;
+	}
+
+	public void setIdUnico(UUID idUnico) {
+		this.idUnico = idUnico;
+	}
 
 	@Override
 	public int hashCode() {

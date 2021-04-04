@@ -2,6 +2,8 @@ package com.priscila.course.resources;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import com.priscila.course.services.ProductService;
 @RequestMapping(value = "/products")
 public class ProductResource {
 	
+	private final Logger log = LoggerFactory.getLogger(ProductResource.class);
 	
 	@Autowired
 	private ProductService service;
@@ -27,6 +30,7 @@ public class ProductResource {
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll() {
 		
+		log.info("Processando lista de produtos");
 		List<Product> list = service.findAll();
 		
 		return ResponseEntity.ok().body(list);
@@ -36,6 +40,7 @@ public class ProductResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Product> findById(@PathVariable Long id) {
 		
+		log.info("Processando lista de produto por id");
 		Product obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 		
@@ -60,6 +65,7 @@ public class ProductResource {
 	public ResponseEntity<Product> update (@PathVariable Long id, @RequestBody Product obj, 
 			@RequestParam("optional") String action) {
 		
+		log.info("Processando as categorias a partir de um id");
 		obj = service.updateCategory(id, obj, action);
 		return ResponseEntity.ok().body(obj);
 		
